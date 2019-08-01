@@ -56,21 +56,31 @@ function minikube-docker() {
 }
 
 # Node
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# PHP
+export PATH="/usr/local/Cellar/php/7.3.6/bin:$PATH"
 
 # Python
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 export PATH="/Users/kyle.b/Library/Python/3.6/bin:$PATH"
 export PYTHONDONTWRITEBYTECODE="true"
 
-# Misc
+# Utils
+function listening() {
+    if [ $# -eq 0 ]; then
+        lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
+
 alias rehash="source ~/.bash_profile"
-alias google="googler"
-alias reddit="rtv"
+
+# Misc
 export PATH="$PATH:~/dev-tools"
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-
-# Glofox
-source ~/.glofox_env
